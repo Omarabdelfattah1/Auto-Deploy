@@ -6,10 +6,10 @@ orbs:
 parameters:
   workflow-id:
     type: string
-    default: "${CIRCLE_WORKFLOW_ID:0:7}"
+    default: "kk1j287dhjppmz4378"
   memstash-token:
     type: string
-    default: "9589acab-197d-42a7-81b3-5abf2336703b"
+    default: "6e74faf7-8a9a-4a13-b176-5ffbdd73a491"
 
 commands:
   destroy-environment:
@@ -115,7 +115,7 @@ jobs:
           name: Font-end security scan
           command: |
             cd frontend
-            npm audit --audit-level=critical
+            npm audit --audit-level=critical --force
 
   scan-backend:
     docker:
@@ -128,7 +128,7 @@ jobs:
           name: Back-end security scan
           command: |
             cd backend
-            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical --force
 
   deploy-infrastructure:
     docker:
@@ -172,7 +172,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["1d:e1:6f:8e:0a:5e:22:27:07:fb:41:b2:00:48:90:c5"]
+          fingerprints: ["9a:02:61:b5:1b:ea:b5:aa:02:78:9e:e5:80:f3:7c:1a"]
       - attach_workspace:
           at: ~/
       - run:
@@ -286,7 +286,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["1d:e1:6f:8e:0a:5e:22:27:07:fb:41:b2:00:48:90:c5"]
+          fingerprints: ["9a:02:61:b5:1b:ea:b5:aa:02:78:9e:e5:80:f3:7c:1a"]
       - attach_workspace:
           at: ~/
       - run:
