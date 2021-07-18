@@ -19,11 +19,11 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
+            aws s3 rm --recursive s3://udapeople
             aws cloudformation delete-stack \
-              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
+              --stack-name "udapeople-backend"
             aws cloudformation delete-stack \
-              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>"
+              --stack-name "udapeople-frontend"
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     steps:
@@ -141,7 +141,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>" \
+              --stack-name "udapeople-backend" \
               --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
       - run:
@@ -149,7 +149,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>" \
+              --stack-name "udapeople-frontend" \
               --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
       - run:
@@ -276,7 +276,7 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            aws s3 cp --recursive frontend/dist "s3://udapeople-<< pipeline.parameters.workflow-id >>"
+            aws s3 cp --recursive frontend/dist "s3://udapeople"
       - revert-migrations
       - destroy-environment    
                     
@@ -342,7 +342,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople-<< pipeline.parameters.workflow-id >>.s3-website-eu-west-3.amazonaws.com"
+            URL="http://udapeople.s3-website-eu-west-3.amazonaws.com"
             echo $URL
             if curl -s ${URL} | grep "Welcome"
             then
