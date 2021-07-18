@@ -9,7 +9,7 @@ parameters:
     default: "${CIRCLE_WORKFLOW_ID:0:7}"
   memstash-token:
     type: string
-    default: "28425111-3876-4087-b86b-180ab0f58b04"
+    default: "b9461c43-6888-4d04-8e76-7beeddbb863c"
 
 commands:
   destroy-environment:
@@ -115,7 +115,7 @@ jobs:
           name: Font-end security scan
           command: |
             cd frontend
-            npm audit --audit-level=critical --force
+            npm audit --audit-level=critical
 
   scan-backend:
     docker:
@@ -128,7 +128,7 @@ jobs:
           name: Back-end security scan
           command: |
             cd backend
-            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
 
   deploy-infrastructure:
     docker:
