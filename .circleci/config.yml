@@ -6,10 +6,10 @@ orbs:
 parameters:
   workflow-id:
     type: string
-    default: "kk1j287dhjppmz4378"
+    default: "${CIRCLE_WORKFLOW_ID:0:7}"
   memstash-token:
     type: string
-    default: "6e74faf7-8a9a-4a13-b176-5ffbdd73a491"
+    default: "28425111-3876-4087-b86b-180ab0f58b04"
 
 commands:
   destroy-environment:
@@ -19,11 +19,11 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm --recursive s3://udapeople
+            aws s3 rm --recursive s3://udapeople-<< pipeline.parameters.workflow-id >>
             aws cloudformation delete-stack \
-              --stack-name "udapeople-backend"
+              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>"
             aws cloudformation delete-stack \
-              --stack-name "udapeople-frontend"
+              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>"
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     steps:
@@ -141,7 +141,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
-              --stack-name "udapeople-backend" \
+              --stack-name "udapeople-backend-<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
       - run:
@@ -149,7 +149,7 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
-              --stack-name "udapeople-frontend" \
+              --stack-name "udapeople-frontend-<< pipeline.parameters.workflow-id >>" \
               --parameter-overrides ID="<< pipeline.parameters.workflow-id >>" \
               --tags project=udapeople
       - run:
@@ -276,7 +276,7 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            aws s3 cp --recursive frontend/dist "s3://udapeople"
+            aws s3 cp --recursive frontend/dist "s3://udapeople-<< pipeline.parameters.workflow-id >>"
       - revert-migrations
       - destroy-environment    
                     
@@ -342,7 +342,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            URL="http://udapeople.s3-website-eu-west-3.amazonaws.com"
+            URL="http://udapeople-<< pipeline.parameters.workflow-id >>.s3-website-eu-west-3.amazonaws.com"
             echo $URL
             if curl -s ${URL} | grep "Welcome"
             then
