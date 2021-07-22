@@ -28,7 +28,7 @@ Resources:
       InstanceType: t3.micro
       SecurityGroups:
         - Ref: InstanceSecurityGroup
-      KeyName: Omar123
+      KeyName: udapeople
       ImageId: ami-0e3b5e402e6d8bb6b
       Tags:
         - Key: Name
