@@ -142,16 +142,14 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-kk1j287dhjppmz4378" \
-              --parameter-overrides ID="kk1j287dhjppmz4378" \
-              --tags project=udapeople
+              --parameter-overrides ID="kk1j287dhjppmz4378" 
       - run:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-frontend-kk1j287dhjppmz4378" \
-              --parameter-overrides ID="kk1j287dhjppmz4378" \
-              --tags project=udapeople
+              --parameter-overrides ID="kk1j287dhjppmz4378" 
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -385,8 +383,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name "udapeople-cloudfront" \
-              --parameter-overrides WorkflowID="kk1j287dhjppmz4378" \
-              --tags project=udapeople
+              --parameter-overrides WorkflowID="kk1j287dhjppmz4378" 
       - revert-migrations
       - destroy-environment
 
